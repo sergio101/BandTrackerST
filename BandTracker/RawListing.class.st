@@ -1,3 +1,14 @@
+"
+I represent a listing pulled from the soma fm site
+
+I keep track of the listings pulled.
+If they are different, I update all listings
+
+You want to use:
+
+getRawListing: to get the currents listings.
+addListingIfNew: to add taht listing if there is no curent match.
+"
 Class {
 	#name : #RawListing,
 	#superclass : #Object,
