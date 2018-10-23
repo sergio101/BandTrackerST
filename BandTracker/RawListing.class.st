@@ -13,9 +13,27 @@ Class {
 	#category : #BandTracker
 }
 
+{ #category : #adding }
+RawListing class >> addListing: aRawListing [
+	"adds a listing to data entries"
+	dataEntries add: aRawListing
+]
+
+{ #category : #adding }
+RawListing class >> addListingIfNew: aRawListing [
+	"Adds a listing to the entries if it doesn't exist"
+
+	((dataEntries select: [ :e | e md5 = aRawListing md5 ]) isEmpty) ifTrue: ( self addListing: aRawListing).
+]
+
 { #category : #'as yet unclassified' }
 RawListing class >> dataEntries [
 	^ dataEntries ifNil: [ dataEntries := OrderedCollection new ].
+]
+
+{ #category : #accessing }
+RawListing class >> dataEntries: anObject [
+	dataEntries := anObject
 ]
 
 { #category : #'as yet unclassified' }
@@ -28,8 +46,15 @@ RawListing class >> getRawListing [
 RawListing class >> rawData: rawData [
 	^ self new
 		rawData: rawData;
-		md5:  (MD5 new hashMessage: rawData ) hex;
+		md5: (MD5 new hashMessage: rawData) hex;
+		dateFetched: DateAndTime now;
 		yourself
+]
+
+{ #category : #'as yet unclassified' }
+RawListing class >> resetDataEntries [
+	"resets the dataEntries list"
+	self dataEntries: nil.
 ]
 
 { #category : #accessing }
