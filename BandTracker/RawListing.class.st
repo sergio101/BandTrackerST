@@ -21,7 +21,7 @@ Class {
 	#classVars : [
 		'dataEntries'
 	],
-	#category : #BandTracker
+	#category : #'BandTracker-core'
 }
 
 { #category : #adding }
@@ -34,7 +34,8 @@ RawListing class >> addListing: aRawListing [
 RawListing class >> addListingIfNew: aRawListing [
 	"Adds a listing to the entries if it doesn't exist"
 
-	((dataEntries select: [ :e | e md5 = aRawListing md5 ]) isEmpty) ifTrue: ( self addListing: aRawListing).
+	(dataEntries select: [ :e | e md5 = aRawListing md5 ]) isEmpty
+		ifTrue: [ self addListing: aRawListing ].
 ]
 
 { #category : #'as yet unclassified' }
@@ -60,6 +61,11 @@ RawListing class >> rawData: rawData [
 		md5: (MD5 new hashMessage: rawData) hex;
 		dateFetched: DateAndTime now;
 		yourself
+]
+
+{ #category : #removing }
+RawListing class >> removeListing: aRawListing [
+	dataEntries remove: aRawListing .
 ]
 
 { #category : #'as yet unclassified' }
