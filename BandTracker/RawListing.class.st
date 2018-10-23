@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'rawData',
 		'dateFetched',
-		'md5'
+		'md5',
+		'processedDate'
 	],
 	#classVars : [
 		'dataEntries'
@@ -55,6 +56,16 @@ RawListing >> md5 [
 { #category : #accessing }
 RawListing >> md5: anObject [
 	md5 := anObject
+]
+
+{ #category : #accessing }
+RawListing >> processedDate [
+	^ processedDate
+]
+
+{ #category : #accessing }
+RawListing >> processedDate: anObject [
+	processedDate := anObject
 ]
 
 { #category : #accessing }
