@@ -26,7 +26,7 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #Event,
+	#name : #TrackedEvent,
 	#superclass : #Object,
 	#instVars : [
 		'id',
@@ -41,22 +41,22 @@ Class {
 }
 
 { #category : #accessing }
-Event class >> events [
+TrackedEvent class >> events [
 	^ events ifNil: (self events: OrderedCollection new).
 ]
 
 { #category : #accessing }
-Event class >> events: anObject [
+TrackedEvent class >> events: anObject [
 	events := anObject
 ]
 
 { #category : #'instance creation' }
-Event class >> fromRawData: data [
+TrackedEvent class >> fromRawData: data [
 	^ self new 
 ]
 
 { #category : #'instance creation' }
-Event class >> fromRawData: data andName: bandName [
+TrackedEvent class >> fromRawData: data andName: bandName [
 	^ self new id: (data at: 'id');
 	band: bandName;
 	date: (data at: 'datetime');
@@ -66,7 +66,7 @@ Event class >> fromRawData: data andName: bandName [
 ]
 
 { #category : #'as yet unclassified' }
-Event class >> getBandsWithEvents [
+TrackedEvent class >> getBandsWithEvents [
 	| api info |
 	api := BandsInTownAPI new.
 	info := RemoteEntry uniqueBandNames collect: [ :bandName | api getBandInfo: bandName ].
@@ -74,41 +74,41 @@ Event class >> getBandsWithEvents [
 ]
 
 { #category : #accessing }
-Event >> band [
+TrackedEvent >> band [
 	^ band
 ]
 
 { #category : #accessing }
-Event >> band: anObject [
+TrackedEvent >> band: anObject [
 	band := anObject
 ]
 
 { #category : #accessing }
-Event >> date [
+TrackedEvent >> date [
 	^ date
 ]
 
 { #category : #accessing }
-Event >> date: anObject [
+TrackedEvent >> date: anObject [
 	date := anObject
 ]
 
 { #category : #accessing }
-Event >> id [
+TrackedEvent >> id [
 	^ id
 ]
 
 { #category : #accessing }
-Event >> id: anObject [
+TrackedEvent >> id: anObject [
 	id := anObject
 ]
 
 { #category : #accessing }
-Event >> venue [
+TrackedEvent >> venue [
 	^ venue
 ]
 
 { #category : #accessing }
-Event >> venue: anObject [
+TrackedEvent >> venue: anObject [
 	venue := anObject
 ]
