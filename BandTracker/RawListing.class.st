@@ -86,11 +86,8 @@ RawListing class >> updateBandEntries [
 			list := e parseRawData.
 			list
 				do: [ :l | 
-					Transcript
-						show: l;
-						cr.
 					BandEntry bandEntries add: (BandEntry withRawData: l) ].
-				e processedDate: DateAndTime now. ]
+			e processedDate: DateAndTime now ]
 ]
 
 { #category : #'as yet unclassified' }
