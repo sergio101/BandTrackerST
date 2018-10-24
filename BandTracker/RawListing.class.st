@@ -69,6 +69,31 @@ RawListing class >> resetDataEntries [
 ]
 
 { #category : #'as yet unclassified' }
+RawListing class >> unprocessedEntries [
+	"get entries taht have not been processed yet"
+	^ self dataEntries select: [ :e | e processedDate isNil ]
+]
+
+{ #category : #'as yet unclassified' }
+RawListing class >> updateBandEntries [
+	"update the listings of the bands with the latest info"
+
+	| listing list |
+	self updateListings.
+	listing := self unprocessedEntries.
+	listing
+		do: [ :e | 
+			list := e parseRawData.
+			list
+				do: [ :l | 
+					Transcript
+						show: l;
+						cr.
+					BandEntry bandEntries add: (BandEntry withRawData: l) ].
+				e processedDate: DateAndTime now. ]
+]
+
+{ #category : #'as yet unclassified' }
 RawListing class >> updateListings [
 	"get listing. add it to the list, if necessary"
 

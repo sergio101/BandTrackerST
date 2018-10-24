@@ -39,6 +39,16 @@ Class {
 	#category : #'BandTracker-core'
 }
 
+{ #category : #accessing }
+BandEntry class >> bandEntries [
+	^ bandEntries ifNil: [ self bandEntries: OrderedCollection new ]
+]
+
+{ #category : #accessing }
+BandEntry class >> bandEntries: anObject [
+	bandEntries := anObject
+]
+
 { #category : #'as yet unclassified' }
 BandEntry class >> withRawData: rawText [
 	"createas a new entry with by deconstructing raw data"
