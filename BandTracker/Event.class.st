@@ -17,38 +17,59 @@ Public API and Key Messages
  
 Internal Representation and Key Implementation Points.
 
+    Instance Variables
+	band:		<Object>
+	date:		<Object>
+	venue:		<Object>
+
 
     Implementation Points
 "
 Class {
-	#name : #BandsInTownAPI,
+	#name : #Event,
 	#superclass : #Object,
-	#classVars : [
-		'apiKey'
+	#instVars : [
+		'venue',
+		'date',
+		'band'
 	],
-	#category : #BandsInTownAPI
+	#category : #'BandTracker-core'
 }
 
-{ #category : #accessing }
-BandsInTownAPI class >> apiKey [
-	^ apiKey
-]
-
-{ #category : #accessing }
-BandsInTownAPI class >> apiKey: anObject [
-	apiKey := anObject
-]
-
-{ #category : #accessing }
-BandsInTownAPI class >> url [
-	^ 'https://rest.bandsintown.com/'
-
-]
-
 { #category : #'as yet unclassified' }
-BandsInTownAPI >> getBandInfo: bandName [
-	| path |
-	path := BandsInTownAPI url , '/artists/' , bandName , '?app_id=' , BandsInTownAPI apiKey.
-	Transcript show: 'About to call for: ', bandName ; cr.
-	^ NeoJSONReader fromString: (ZnClient new get: path)
+Event class >> getBandsWithEvents [
+	| api info |
+	api := BandsInTownAPI new.
+	info := BandEntry uniqueBandNames collect: [ :bandName | api getBandInfo: bandName ].
+	^ info select: [ :e | (e at: 'upcoming_event_count' ifAbsentPut: 0) > 0 ].
+]
+
+{ #category : #accessing }
+Event >> band [
+	^ band
+]
+
+{ #category : #accessing }
+Event >> band: anObject [
+	band := anObject
+]
+
+{ #category : #accessing }
+Event >> date [
+	^ date
+]
+
+{ #category : #accessing }
+Event >> date: anObject [
+	date := anObject
+]
+
+{ #category : #accessing }
+Event >> venue [
+	^ venue
+]
+
+{ #category : #accessing }
+Event >> venue: anObject [
+	venue := anObject
 ]
