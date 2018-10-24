@@ -37,3 +37,12 @@ TestRawListings >> testAddingListing [
 	self assert: RawListing dataEntries size = (listingCount + 1).
 	RawListing dataEntries remove: listing.
 ]
+
+{ #category : #tests }
+TestRawListings >> testCreateWithRawText [
+	| string entry |
+	string := 'Van Halen (5150)'.
+	entry := BandEntry withRawData: string.
+	self assert: entry bandName equals: 'Van Halen'.
+	self assert: entry playCount equals: 5150
+]
