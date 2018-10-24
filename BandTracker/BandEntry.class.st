@@ -50,6 +50,11 @@ BandEntry class >> bandEntries: anObject [
 ]
 
 { #category : #'as yet unclassified' }
+BandEntry class >> uniqueBandNames [
+	^ (bandEntries collect: [ :e | e bandName ]) asSet
+]
+
+{ #category : #'as yet unclassified' }
 BandEntry class >> withRawData: rawText [
 	"createas a new entry with by deconstructing raw data"
 
