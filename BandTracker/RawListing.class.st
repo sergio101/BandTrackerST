@@ -25,17 +25,11 @@ Class {
 }
 
 { #category : #adding }
-RawListing class >> addListing: aRawListing [
-	"adds a listing to data entries"
-	dataEntries add: aRawListing
-]
-
-{ #category : #adding }
 RawListing class >> addListingIfNew: aRawListing [
 	"Adds a listing to the entries if it doesn't exist"
-
-	(dataEntries select: [ :e | e md5 = aRawListing md5 ]) isEmpty
-		ifTrue: [ self addListing: aRawListing ].
+	
+	(self dataEntries select: [ :e | e md5 = aRawListing md5 ]) isEmpty
+		ifTrue: [ self dataEntries add: aRawListing ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -74,6 +68,15 @@ RawListing class >> resetDataEntries [
 	self dataEntries: nil.
 ]
 
+{ #category : #'as yet unclassified' }
+RawListing class >> updateListings [
+	"get listing. add it to the list, if necessary"
+
+	| listing |
+	listing := self rawData: (self getRawListing).
+	self addListingIfNew: listing
+]
+
 { #category : #accessing }
 RawListing class >> url [
 	"the url to retrieve listing from"
@@ -98,6 +101,13 @@ RawListing >> md5 [
 { #category : #accessing }
 RawListing >> md5: anObject [
 	md5 := anObject
+]
+
+{ #category : #parsing }
+RawListing >> parseRawData [
+	| soup |
+	soup := Soup fromString: self rawData.
+	^ ((soup findTag: 'ol') findAllChildTags: 'li') collect: [ :e | e text ]
 ]
 
 { #category : #accessing }
