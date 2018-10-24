@@ -29,18 +29,47 @@ Class {
 	#name : #Event,
 	#superclass : #Object,
 	#instVars : [
+		'id',
 		'venue',
 		'date',
 		'band'
 	],
+	#classVars : [
+		'events'
+	],
 	#category : #'BandTracker-core'
 }
+
+{ #category : #accessing }
+Event class >> events [
+	^ events ifNil: (self events: OrderedCollection new).
+]
+
+{ #category : #accessing }
+Event class >> events: anObject [
+	events := anObject
+]
+
+{ #category : #'instance creation' }
+Event class >> fromRawData: data [
+	^ self new 
+]
+
+{ #category : #'instance creation' }
+Event class >> fromRawData: data andName: bandName [
+	^ self new id: (data at: 'id');
+	band: bandName;
+	date: (data at: 'datetime');
+	venue: (data at: 'venue');
+	yourself .
+	
+]
 
 { #category : #'as yet unclassified' }
 Event class >> getBandsWithEvents [
 	| api info |
 	api := BandsInTownAPI new.
-	info := BandEntry uniqueBandNames collect: [ :bandName | api getBandInfo: bandName ].
+	info := RemoteEntry uniqueBandNames collect: [ :bandName | api getBandInfo: bandName ].
 	^ info select: [ :e | (e at: 'upcoming_event_count' ifAbsentPut: 0) > 0 ].
 ]
 
@@ -62,6 +91,16 @@ Event >> date [
 { #category : #accessing }
 Event >> date: anObject [
 	date := anObject
+]
+
+{ #category : #accessing }
+Event >> id [
+	^ id
+]
+
+{ #category : #accessing }
+Event >> id: anObject [
+	id := anObject
 ]
 
 { #category : #accessing }

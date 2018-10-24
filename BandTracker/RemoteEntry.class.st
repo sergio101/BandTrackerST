@@ -26,7 +26,7 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #BandEntry,
+	#name : #RemoteEntry,
 	#superclass : #Object,
 	#instVars : [
 		'bandName',
@@ -40,22 +40,32 @@ Class {
 }
 
 { #category : #accessing }
-BandEntry class >> bandEntries [
+RemoteEntry class >> bandEntries [
 	^ bandEntries ifNil: [ self bandEntries: OrderedCollection new ]
 ]
 
 { #category : #accessing }
-BandEntry class >> bandEntries: anObject [
+RemoteEntry class >> bandEntries: anObject [
 	bandEntries := anObject
 ]
 
 { #category : #'as yet unclassified' }
-BandEntry class >> uniqueBandNames [
+RemoteEntry class >> uniqueBandNames [
 	^ (bandEntries collect: [ :e | e bandName ]) asSet
 ]
 
 { #category : #'as yet unclassified' }
-BandEntry class >> withRawData: rawText [
+RemoteEntry class >> updateTrackedArtists [
+	| api entries |
+	api := BandsInTownAPI new.
+	entries := self uniqueBandNames collect: [ :e | api getBandInfo: e ].
+	entries
+		do:
+			[ :e | (e includesKey: 'name') ifTrue: [  TrackedArtist addArtist: (TrackedArtist withName: (e at: 'name') id: (e at: 'id'))] ]
+]
+
+{ #category : #'as yet unclassified' }
+RemoteEntry class >> withRawData: rawText [
 	"createas a new entry with by deconstructing raw data"
 
 	"in the form of: 'band name (13)' where 13 is the play count"
@@ -71,31 +81,31 @@ BandEntry class >> withRawData: rawText [
 ]
 
 { #category : #accessing }
-BandEntry >> bandName [
+RemoteEntry >> bandName [
 	^ bandName
 ]
 
 { #category : #accessing }
-BandEntry >> bandName: anObject [
+RemoteEntry >> bandName: anObject [
 	bandName := anObject
 ]
 
 { #category : #accessing }
-BandEntry >> dateAdded [
+RemoteEntry >> dateAdded [
 	^ dateAdded
 ]
 
 { #category : #accessing }
-BandEntry >> dateAdded: anObject [
+RemoteEntry >> dateAdded: anObject [
 	dateAdded := anObject
 ]
 
 { #category : #accessing }
-BandEntry >> playCount [
+RemoteEntry >> playCount [
 	^ playCount
 ]
 
 { #category : #accessing }
-BandEntry >> playCount: anObject [
+RemoteEntry >> playCount: anObject [
 	playCount := anObject
 ]

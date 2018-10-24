@@ -42,7 +42,7 @@ TestRawListings >> testAddingListing [
 TestRawListings >> testCreateWithRawText [
 	| string entry |
 	string := 'Van Halen (5150)'.
-	entry := BandEntry withRawData: string.
+	entry := RemoteEntry withRawData: string.
 	self assert: entry bandName equals: 'Van Halen'.
 	self assert: entry playCount equals: 5150
 ]
