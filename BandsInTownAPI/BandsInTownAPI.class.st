@@ -47,13 +47,19 @@ BandsInTownAPI class >> url [
 
 { #category : #'as yet unclassified' }
 BandsInTownAPI >> getBandEvents: bandName [
-	| path |
-	path := BandsInTownAPI url , '/artists/', bandName ,'/events/?app_id='
-		, BandsInTownAPI apiKey.
-	Transcript
-		show: path;
-		cr.
-	^ NeoJSONReader fromString: (ZnClient new get: path)
+	| result url |
+	url := ZnUrl new
+		scheme: #http;
+		host: 'rest.bandsintown.com';
+		queryAt: 'app_id' put: BandsInTownAPI apiKey;
+		addPathSegment: 'artists';
+		addPathSegment: bandName;
+		addPathSegment: 'events';
+		yourself.
+	result := ZnClient new get: url.
+	(result includesSubstring: 'error')
+		ifTrue: [ ^ NeoJSONReader fromString: '[]' ]
+		ifFalse: [ ^ NeoJSONReader fromString: result].
 ]
 
 { #category : #'as yet unclassified' }
@@ -64,6 +70,5 @@ BandsInTownAPI >> getBandInfo: bandName [
 		show: 'About to call for: ' , bandName;
 		cr.
 	result := NeoJSONReader fromString: (ZnClient new get: path).
-	Transcript show: result;cr;cr.
 	^ result
 ]

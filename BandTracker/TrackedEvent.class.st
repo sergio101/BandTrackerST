@@ -32,7 +32,8 @@ Class {
 		'id',
 		'venue',
 		'date',
-		'band'
+		'band',
+		'jsonData'
 	],
 	#classVars : [
 		'events'
@@ -50,27 +51,28 @@ TrackedEvent class >> events: anObject [
 	events := anObject
 ]
 
-{ #category : #'instance creation' }
-TrackedEvent class >> fromRawData: data [
-	^ self new 
+{ #category : #'as yet unclassified' }
+TrackedEvent class >> findEventById: id [
+	^ self events detect: [ :e | e id = id ] ifNone: nil.
 ]
 
 { #category : #'instance creation' }
 TrackedEvent class >> fromRawData: data andName: bandName [
-	^ self new id: (data at: 'id');
-	band: bandName;
-	date: (data at: 'datetime');
-	venue: (data at: 'venue');
-	yourself .
-	
+	^ self new
+		id: (data at: 'id');
+		band: bandName;
+		date: (data at: 'datetime');
+		venue: (data at: 'venue');
+		jsonData: (data);
+		yourself
 ]
 
 { #category : #'as yet unclassified' }
-TrackedEvent class >> getBandsWithEvents [
-	| api info |
+TrackedEvent class >> updateEvents [
+	| api eventList |
 	api := BandsInTownAPI new.
-	info := RemoteEntry uniqueBandNames collect: [ :bandName | api getBandInfo: bandName ].
-	^ info select: [ :e | (e at: 'upcoming_event_count' ifAbsentPut: 0) > 0 ].
+	eventList := TrackedArtist artists collect: [ :e | api getBandEvents: e artistName ].
+	^ eventList 
 ]
 
 { #category : #accessing }
@@ -101,6 +103,16 @@ TrackedEvent >> id [
 { #category : #accessing }
 TrackedEvent >> id: anObject [
 	id := anObject
+]
+
+{ #category : #accessing }
+TrackedEvent >> jsonData [
+	^ jsonData
+]
+
+{ #category : #accessing }
+TrackedEvent >> jsonData: anObject [
+	jsonData := anObject
 ]
 
 { #category : #accessing }
