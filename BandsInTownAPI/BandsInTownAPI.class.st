@@ -58,8 +58,12 @@ BandsInTownAPI >> getBandEvents: bandName [
 
 { #category : #'as yet unclassified' }
 BandsInTownAPI >> getBandInfo: bandName [
-	| path |
+	| path result |
 	path := BandsInTownAPI url , '/artists/' , bandName , '?app_id=' , BandsInTownAPI apiKey.
-	Transcript show: 'About to call for: ', bandName ; cr.
-	^ NeoJSONReader fromString: (ZnClient new get: path)
+	Transcript
+		show: 'About to call for: ' , bandName;
+		cr.
+	result := NeoJSONReader fromString: (ZnClient new get: path).
+	Transcript show: result;cr;cr.
+	^ result
 ]

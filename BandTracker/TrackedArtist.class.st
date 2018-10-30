@@ -29,7 +29,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'id',
-		'artistName'
+		'artistName',
+		'jsonData'
 	],
 	#classVars : [
 		'artists'
@@ -39,7 +40,8 @@ Class {
 
 { #category : #adding }
 TrackedArtist class >> addArtist: artist [
-	(self artists select: [ :a | (a id = artist id) ]) ifEmpty: [ 
+	(self artists select: [ :a | (a id = artist id) ]) 
+	ifEmpty: [ 
 		self artists add: artist ]
 ]
 
@@ -61,6 +63,15 @@ TrackedArtist class >> withName: artistName id: id [
 		yourself
 ]
 
+{ #category : #'as yet unclassified' }
+TrackedArtist class >> withName: artistName id: id jsonData: jsonData [
+	 ^ self new
+		artistName: artistName;
+		id: id;
+		jsonData: jsonData;
+		yourself
+]
+
 { #category : #accessing }
 TrackedArtist >> artistName [
 	^ artistName
@@ -79,4 +90,14 @@ TrackedArtist >> id [
 { #category : #accessing }
 TrackedArtist >> id: anObject [
 	id := anObject
+]
+
+{ #category : #accessing }
+TrackedArtist >> jsonData [
+	^ jsonData
+]
+
+{ #category : #accessing }
+TrackedArtist >> jsonData: anObject [
+	jsonData := anObject
 ]

@@ -57,11 +57,6 @@ RawListing class >> rawData: rawData [
 		yourself
 ]
 
-{ #category : #removing }
-RawListing class >> removeListing: aRawListing [
-	dataEntries remove: aRawListing .
-]
-
 { #category : #'as yet unclassified' }
 RawListing class >> resetDataEntries [
 	"resets the dataEntries list"

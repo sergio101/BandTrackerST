@@ -50,18 +50,26 @@ RemoteEntry class >> bandEntries: anObject [
 ]
 
 { #category : #'as yet unclassified' }
+RemoteEntry class >> bandsNotTracked [
+	^ self uniqueBandNames asArray
+		copyWithoutAll: ((TrackedArtist artists collect: [ :e | e artistName asLowercase  ]) asArray)
+]
+
+{ #category : #'as yet unclassified' }
 RemoteEntry class >> uniqueBandNames [
-	^ (bandEntries collect: [ :e | e bandName ]) asSet
+	^ (bandEntries collect: [ :e | e bandName asLowercase  ]) asSet
 ]
 
 { #category : #'as yet unclassified' }
 RemoteEntry class >> updateTrackedArtists [
 	| api entries |
 	api := BandsInTownAPI new.
-	entries := self uniqueBandNames collect: [ :e | api getBandInfo: e ].
+	entries := self bandsNotTracked  collect: [ :e | api getBandInfo: e ].
 	entries
-		do:
-			[ :e | (e includesKey: 'name') ifTrue: [  TrackedArtist addArtist: (TrackedArtist withName: (e at: 'name') id: (e at: 'id'))] ]
+		do: [ :e | 
+			(e includesKey: 'name')
+				ifTrue: [ TrackedArtist
+						addArtist: (TrackedArtist withName: (e at: 'name') id: (e at: 'id') jsonData: e) ] ]
 ]
 
 { #category : #'as yet unclassified' }
