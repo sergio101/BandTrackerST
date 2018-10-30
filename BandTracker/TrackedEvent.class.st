@@ -41,9 +41,15 @@ Class {
 	#category : #'BandTracker-core'
 }
 
+{ #category : #adding }
+TrackedEvent class >> addEvents: event [
+	(self findEventById: (event at: 'id'))
+		ifNil: [ self events add: (self fromRawData: event) ]
+]
+
 { #category : #accessing }
 TrackedEvent class >> events [
-	^ events ifNil: (self events: OrderedCollection new).
+	^ events ifNil: [self events: OrderedCollection new]
 ]
 
 { #category : #accessing }
@@ -57,14 +63,18 @@ TrackedEvent class >> findEventById: id [
 ]
 
 { #category : #'instance creation' }
-TrackedEvent class >> fromRawData: data andName: bandName [
+TrackedEvent class >> fromRawData: data [
 	^ self new
 		id: (data at: 'id');
-		band: bandName;
 		date: (data at: 'datetime');
 		venue: (data at: 'venue');
-		jsonData: (data);
+		jsonData: data;
 		yourself
+]
+
+{ #category : #'as yet unclassified' }
+TrackedEvent class >> processEvents: eventArray [
+	eventArray do: [ :e |  self addEvents: e ] 
 ]
 
 { #category : #'as yet unclassified' }
@@ -72,7 +82,7 @@ TrackedEvent class >> updateEvents [
 	| api eventList |
 	api := BandsInTownAPI new.
 	eventList := TrackedArtist artists collect: [ :e | api getBandEvents: e artistName ].
-	^ eventList 
+	eventList do: [ :e | self processEvents: e ]
 ]
 
 { #category : #accessing }
