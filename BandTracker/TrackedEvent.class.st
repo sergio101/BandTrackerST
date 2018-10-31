@@ -32,7 +32,6 @@ Class {
 		'id',
 		'venue',
 		'date',
-		'band',
 		'jsonData'
 	],
 	#classVars : [
@@ -85,14 +84,9 @@ TrackedEvent class >> updateEvents [
 	eventList do: [ :e | self processEvents: e ]
 ]
 
-{ #category : #accessing }
-TrackedEvent >> band [
-	^ band
-]
-
-{ #category : #accessing }
-TrackedEvent >> band: anObject [
-	band := anObject
+{ #category : #'as yet unclassified' }
+TrackedEvent >> artist [
+	^ TrackedArtist artists detect: [ :e | e id = (jsonData at: 'artist_id') ]
 ]
 
 { #category : #accessing }
