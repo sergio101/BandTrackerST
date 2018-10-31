@@ -28,7 +28,7 @@ Class {
 	#name : #ZipCodeGeo,
 	#superclass : #Object,
 	#instVars : [
-		'zipcode',
+		'zipCode',
 		'geoPoint'
 	],
 	#classVars : [
@@ -55,13 +55,19 @@ ZipCodeGeo class >> findByZipCode: aZipCode [
 
 { #category : #'as yet unclassified' }
 ZipCodeGeo class >> getZipCoords: zipCode [
-	| path response re encResults coords |
+	| path response re coords |
 	path := self apiUrl , '?n=' , zipCode.
 	response := ZnClient new get: path.
 	re := '.+{(.*)}.+' asRegexIgnoringCase.
 	re matchesPrefix: response.
 	coords := (re subexpression: 2) splitOn: ','.
 	^ GeoPoint withLatitude: (coords at: 1) andLongitude: (coords at: 2)
+]
+
+{ #category : #'as yet unclassified' }
+ZipCodeGeo class >> withZipCode: aZipCode geoPoint: aGeoPoint [
+	^ self new zipCode: aZipCode; geoPoint: aGeoPoint 
+	
 ]
 
 { #category : #accessing }
@@ -85,11 +91,11 @@ ZipCodeGeo >> geoPoint: anObject [
 ]
 
 { #category : #accessing }
-ZipCodeGeo >> zipcode [
-	^ zipcode
+ZipCodeGeo >> zipCode [
+	^ zipCode
 ]
 
 { #category : #accessing }
-ZipCodeGeo >> zipcode: anObject [
-	zipcode := anObject
+ZipCodeGeo >> zipCode: anObject [
+	zipCode := anObject
 ]
