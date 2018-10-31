@@ -38,6 +38,15 @@ Class {
 	#category : #GeoDistance
 }
 
+{ #category : #adding }
+ZipCodeGeo class >> addNewZip: aZipCode [
+	| geo newZipCodeGeo |
+	geo := self getZipCoords: aZipCode.
+	newZipCodeGeo := ZipCodeGeo withZipCode: aZipCode geoPoint: geo.
+	ZipCodeGeo zipCodes add: newZipCodeGeo.
+	^ newZipCodeGeo 
+]
+
 { #category : #accessing }
 ZipCodeGeo class >> apiUrl [
 	^ apiUrl
@@ -50,7 +59,7 @@ ZipCodeGeo class >> apiUrl: anObject [
 
 { #category : #'as yet unclassified' }
 ZipCodeGeo class >> findByZipCode: aZipCode [
-	^ self zipCodes detect: [ :e | e zipCode = aZipCode  ] ifNone: nil.
+	^ self zipCodes detect: [ :e | e zipCode = aZipCode ] ifNone: [ self addNewZip: aZipCode  ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -61,7 +70,7 @@ ZipCodeGeo class >> getZipCoords: zipCode [
 	re := '.+{(.*)}.+' asRegexIgnoringCase.
 	re matchesPrefix: response.
 	coords := (re subexpression: 2) splitOn: ','.
-	^ GeoPoint withLatitude: (coords at: 1) andLongitude: (coords at: 2)
+	^ GeoPoint withLatitude: ((coords at: 1) trimBoth asNumber) andLongitude: ((coords at: 2) trimBoth) asNumber
 ]
 
 { #category : #'as yet unclassified' }
