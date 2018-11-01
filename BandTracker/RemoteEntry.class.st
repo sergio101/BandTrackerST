@@ -67,7 +67,7 @@ RemoteEntry class >> updateTrackedArtists [
 	entries := self bandsNotTracked  collect: [ :e | api getBandInfo: e ].
 	entries
 		do: [ :e | 
-			(e includesKey: 'name')
+			((e class = 'Dictionary') & (e includesKey: 'name'))
 				ifTrue: [ TrackedArtist
 						addArtist: (TrackedArtist withName: (e at: 'name') id: (e at: 'id') jsonData: e) ] ]
 ]
