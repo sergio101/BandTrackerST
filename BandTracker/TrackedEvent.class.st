@@ -89,6 +89,12 @@ TrackedEvent >> artist [
 	^ TrackedArtist artists detect: [ :e | e id = (jsonData at: 'artist_id') ]
 ]
 
+{ #category : #converting }
+TrackedEvent >> asText [
+	^ date , ' - ' , self artist artistName , ' - ' , (self venue at: 'name') , ' - ',
+	 (self venue at: 'city') , ', ' , (self venue at: 'region')
+]
+
 { #category : #accessing }
 TrackedEvent >> date [
 	^ date
@@ -96,7 +102,7 @@ TrackedEvent >> date [
 
 { #category : #accessing }
 TrackedEvent >> date: anObject [
-	date := anObject
+	date := anObject asDateAndTime
 ]
 
 { #category : #'as yet unclassified' }
@@ -137,5 +143,7 @@ TrackedEvent >> venue: anObject [
 
 { #category : #'as yet unclassified' }
 TrackedEvent >> venueGeoPoint [
-	^ GeoPoint withLatitude: ((self venue at: 'latitude') asNumber ) andLongitude: ((self venue at: 'longitude') asNumber )
+	(self venue includesKey: 'latitude') ifTrue: [  ^ GeoPoint withLatitude: ((self venue at: 'latitude') asNumber ) andLongitude: ((self venue at: 'longitude') asNumber ) ]
+	ifFalse: [ ^ GeoPoint withLatitude: 0 andLongitude: 0 ]
+	
 ]
