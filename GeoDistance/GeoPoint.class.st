@@ -28,30 +28,26 @@ Class {
 	#name : #GeoPoint,
 	#superclass : #Object,
 	#instVars : [
-		'latitiude',
-		'longitiude'
+		'latitude',
+		'longitude'
 	],
 	#category : #GeoDistance
 }
 
 { #category : #'as yet unclassified' }
 GeoPoint class >> withLatitude: latitude andLongitude: longitude [
-	^ self new latitiude: latitude;
-	longitiude: longitude;
+	^ self new latitude: latitude;
+	longitude: longitude;
 	yourself.
-]
-
-{ #category : #'as yet unclassified' }
-GeoPoint >> distacnceToZipCode: aZipCode [
 ]
 
 { #category : #calculating }
 GeoPoint >> distanceToPoint: aGeoPoint [
 	| lat1Rad lon1Rad lat2Rad lon2Rad earthRadius dLat dLon dLatSinSqrd dLonSinSqrd cosLatLat a c distance |
-	lat1Rad := self latitiude * Float pi / 180.
-lon1Rad := self longitiude  * Float pi / 180.
-lat2Rad := aGeoPoint latitiude  * Float pi / 180.
-lon2Rad := aGeoPoint longitiude  * Float pi / 180.
+	lat1Rad := self latitude  * Float pi / 180.
+lon1Rad := self longitude  * Float pi / 180.
+lat2Rad := aGeoPoint latitude   * Float pi / 180.
+lon2Rad := aGeoPoint longitude  * Float pi / 180.
 earthRadius := 3959.00.
 			
 "Haversines"	
@@ -68,21 +64,21 @@ distance := earthRadius * c.
 ]
 
 { #category : #accessing }
-GeoPoint >> latitiude [
-	^ latitiude
+GeoPoint >> latitude [
+	^ latitude
 ]
 
 { #category : #accessing }
-GeoPoint >> latitiude: anObject [
-	latitiude := anObject
+GeoPoint >> latitude: anObject [
+	latitude := anObject
 ]
 
 { #category : #accessing }
-GeoPoint >> longitiude [
-	^ longitiude
+GeoPoint >> longitude [
+	^ longitude
 ]
 
 { #category : #accessing }
-GeoPoint >> longitiude: anObject [
-	longitiude := anObject
+GeoPoint >> longitude: anObject [
+	longitude := anObject
 ]

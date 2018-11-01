@@ -59,7 +59,7 @@ ZipCodeGeo class >> apiUrl: anObject [
 
 { #category : #'as yet unclassified' }
 ZipCodeGeo class >> findByZipCode: aZipCode [
-	^ self zipCodes detect: [ :e | e zipCode = aZipCode ] ifNone: [ self addNewZip: aZipCode  ]
+	^ (self zipCodes) detect: [ :e | e zipCode = aZipCode ] ifNone: [ self addNewZip: aZipCode  ]
 ]
 
 { #category : #'as yet unclassified' }

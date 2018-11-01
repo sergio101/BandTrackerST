@@ -99,6 +99,12 @@ TrackedEvent >> date: anObject [
 	date := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+TrackedEvent >> distanceToGeoPoint: aGeoPoint [
+
+	^ self venueGeoPoint distanceToPoint: aGeoPoint
+]
+
 { #category : #accessing }
 TrackedEvent >> id [
 	^ id
@@ -127,4 +133,9 @@ TrackedEvent >> venue [
 { #category : #accessing }
 TrackedEvent >> venue: anObject [
 	venue := anObject
+]
+
+{ #category : #'as yet unclassified' }
+TrackedEvent >> venueGeoPoint [
+	^ GeoPoint withLatitude: ((self venue at: 'latitude') asNumber ) andLongitude: ((self venue at: 'longitude') asNumber )
 ]
