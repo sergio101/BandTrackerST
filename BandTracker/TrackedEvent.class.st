@@ -91,7 +91,7 @@ TrackedEvent >> artist [
 
 { #category : #converting }
 TrackedEvent >> asText [
-	^ date , ' - ' , self artist artistName , ' - ' , (self venue at: 'name') , ' - ',
+	^ date asString , ' - ' , self artist artistName , ' - ' , (self venue at: 'name') , ' - ',
 	 (self venue at: 'city') , ', ' , (self venue at: 'region')
 ]
 
