@@ -30,7 +30,8 @@ Class {
 	#instVars : [
 		'id',
 		'artistName',
-		'jsonData'
+		'jsonData',
+		'dateAdded'
 	],
 	#classVars : [
 		'artists'
@@ -40,9 +41,8 @@ Class {
 
 { #category : #adding }
 TrackedArtist class >> addArtist: artist [
-	(self artists select: [ :a | (a id = artist id) ]) 
-	ifEmpty: [ 
-		self artists add: artist ]
+	artist dateAdded: DateAndTime today.
+	(self artists select: [ :a | a id = artist id ]) ifEmpty: [ self artists add: artist ]
 ]
 
 { #category : #accessing }
@@ -80,6 +80,16 @@ TrackedArtist >> artistName [
 { #category : #accessing }
 TrackedArtist >> artistName: anObject [
 	artistName := anObject
+]
+
+{ #category : #accessing }
+TrackedArtist >> dateAdded [
+	^ dateAdded
+]
+
+{ #category : #accessing }
+TrackedArtist >> dateAdded: anObject [
+	dateAdded := anObject
 ]
 
 { #category : #accessing }

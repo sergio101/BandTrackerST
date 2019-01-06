@@ -79,9 +79,11 @@ TrackedEvent class >> processEvents: eventArray [
 { #category : #'as yet unclassified' }
 TrackedEvent class >> updateEvents [
 	| api eventList |
+Transcript show: 'Starting update events'; cr .	
 	api := BandsInTownAPI new.
 	eventList := TrackedArtist artists collect: [ :e | api getBandEvents: e artistName ].
-	eventList do: [ :e | self processEvents: e ]
+	eventList do: [ :e | self processEvents: e ].
+	Transcript show: 'Done update events'; cr .
 ]
 
 { #category : #'as yet unclassified' }
