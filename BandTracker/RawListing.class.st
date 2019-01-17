@@ -34,7 +34,8 @@ RawListing class >> addListingIfNew: aRawListing [
 
 { #category : #'as yet unclassified' }
 RawListing class >> dataEntries [
-	^ dataEntries ifNil: [ self dataEntries:  OrderedCollection new ]
+"self dataEntries"
+	^ dataEntries ifNil: [ self dataEntries: OrderedCollection new ]
 ]
 
 { #category : #accessing }
