@@ -8,14 +8,20 @@ Class {
 BTSearchFormComponent >> renderContentOn: html [
 	html tbsForm
 		beInline;
-		with: [ html
-				tbsFormGroup: [ html label
-						for: 'selectStation';
-						class: 'sr-only';
-						with: 'Select Channel'.
-					html
-						tbsFormGroup: [ html select
-								id: 'selectStation';
-								class: 'form-control' ].
-					html space ] ]
+		with:
+				[ self renderStationSelect: html ]
+]
+
+{ #category : #rendering }
+BTSearchFormComponent >> renderStationSelect: html [
+	^ html
+		tbsFormGroup: [ html label
+				for: 'selectStation';
+				class: 'sr-only';
+				with: 'Select Channel'.
+			html
+				tbsFormGroup: [ html select
+						id: 'selectStation';
+						class: 'form-control' ].
+			html space ]
 ]
