@@ -6,7 +6,10 @@ Class {
 
 { #category : #rendering }
 BTHeaderComponent >> renderBrandOn: html [
-	html tbsNavbarHeader: [ html tbsNavbarBrand url: self application url;  with: 'Band Tracker' ]
+	html
+		tbsNavbarHeader: [ html tbsNavbarBrand
+				url: self application url;
+				with: 'SomaFM Concert Finder' ]
 ]
 
 { #category : #rendering }

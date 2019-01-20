@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-BTScreenComponent >> childeren [ 
+BTScreenComponent >> children [ 
 ^ { header }
 ]
 

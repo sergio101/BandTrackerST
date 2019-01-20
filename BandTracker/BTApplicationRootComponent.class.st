@@ -30,8 +30,13 @@ BTApplicationRootComponent >> children [
 
 { #category : #initialization }
 BTApplicationRootComponent >> initialize [
-	super initialize .
-	main := BTScreenComponent new.
+	super initialize.
+	main := BTPublicComponent  new
+]
+
+{ #category : #accessing }
+BTApplicationRootComponent >> main: anObject [
+	main := anObject
 ]
 
 { #category : #rendering }
