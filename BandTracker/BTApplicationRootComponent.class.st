@@ -14,13 +14,15 @@ BTApplicationRootComponent class >> canBeRoot [
 
 { #category : #initialization }
 BTApplicationRootComponent class >> initialize [
-   "self initialize"
-   | app |
-   app := WAAdmin register: self asApplicationAt: 'BandTracker'.
-   app
-      addLibrary: JQDeploymentLibrary;
-      addLibrary: JQUiDeploymentLibrary;
-      addLibrary: TBSDeploymentLibrary
+	"self initialize"
+
+	| app |
+	app := WAAdmin register: self asApplicationAt: 'BandTracker'.
+	app preferenceAt: #sessionClass put: BTSession.
+	app
+		addLibrary: JQDeploymentLibrary;
+		addLibrary: JQUiDeploymentLibrary;
+		addLibrary: TBSDeploymentLibrary
 ]
 
 { #category : #hooks }
