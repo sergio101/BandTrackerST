@@ -63,15 +63,19 @@ RemoteEntry class >> uniqueBandNames [
 { #category : #'as yet unclassified' }
 RemoteEntry class >> updateTrackedArtists [
 	| api entries |
-	Transcript show: 'Starting update artist'; cr .
+	Transcript
+		show: 'Starting update artist';
+		cr.
 	api := BandsInTownAPI new.
-	entries := self bandsNotTracked  collect: [ :e | api getBandInfo: e ].
+	entries := self bandsNotTracked collect: [ :e | api getBandInfo: e ].
 	entries
 		do: [ :e | 
-			((e class = 'Dictionary') & (e includesKey: 'name'))
+			(e class = 'Dictionary' and: [e includesKey: 'name'])
 				ifTrue: [ TrackedArtist
 						addArtist: (TrackedArtist withName: (e at: 'name') id: (e at: 'id') jsonData: e) ] ].
-				Transcript show: 'Done update artist'; cr .
+	Transcript
+		show: 'Done update artist';
+		cr
 ]
 
 { #category : #'as yet unclassified' }
