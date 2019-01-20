@@ -16,6 +16,11 @@ Station class >> stations [
 	^ stations ifNil: [ self stations: OrderedCollection new ]
 ]
 
+{ #category : #'as yet unclassified' }
+Station class >> stations: anObject [
+	stations := anObject 
+]
+
 { #category : #accessing }
 Station >> stationName [
 	^ stationName
